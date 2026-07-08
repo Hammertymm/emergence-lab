@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Emergence Lab
 
 A browser-based artificial life sandbox inspired by Conway's Game of Life.
@@ -45,3 +46,7 @@ http://localhost:8000
 3. Shareable world seeds
 4. AI-generated field notes
 5. Hosted demo on GitHub Pages or Vercel
+=======
+# emergence-lab
+GPTs own project
+>>>>>>> 8b562f0ea812bf9be9a9284104660120c0ad6476
