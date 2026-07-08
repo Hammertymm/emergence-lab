@@ -1,19 +1,21 @@
-# Emergence Lab v1.1 — Energy Ecology
+# Emergence Lab v1.2 — Recovery Ecology
 
-A browser-based artificial ecology and observatory. This release rebalances the predator/prey crash problem by replacing simple population spawning with a basic energy economy.
+A browser-based artificial world simulator focused on stable ecosystem emergence.
 
-## What changed from v1.0
+## What changed from v1.1
 
-- Predators reproduce much more slowly.
-- Predators no longer hunt with guaranteed success.
-- Herbivores can gain protection from plant cover.
-- Predators enter satiety/rest after successful hunts.
-- Dead organisms become nutrients.
-- Nutrients feed plant growth.
-- Plants, herbivores and predators now form a crude energy chain.
-- New field notes explain ecosystem state.
-- Better population metrics and charting.
-- Screen-first layout retained.
+v1.1 overcorrected the predator/prey system. Predators could still exhaust herbivores, then collapse the world. v1.2 adds stronger recovery and balance systems:
+
+- More land-biased world generation.
+- Better organism seeding.
+- Predator population caps tied to herbivore population.
+- Slower predator reproduction.
+- Predator rest/cooldown after hunting.
+- Hunting failure affected by vegetation cover.
+- Herbivore emergency reseeding if the world collapses.
+- Predator reseeding only when herbivore population can support it.
+- Clearer terrain colours.
+- Smaller screen-first interface.
 
 ## Run locally
 
@@ -27,23 +29,16 @@ Open the printed local URL, usually:
 http://localhost:3000
 ```
 
-## Recommended Git commit
-
-```powershell
-git add .
-git commit -m "Release Emergence Lab v1.1 energy ecology"
-git push
-```
-
 ## Controls
 
-- Drag: paint selected brush
-- Mouse wheel: zoom
 - Space: pause/resume
+- S: single step
 - P: hide/show side panel
-- H: compact/expand field notes
 - F: focus mode
+- R: rain
+- L: seed life
+- Click/drag: paint selected brush
 
-## Design direction
+## Notes
 
-The simulation is now moving away from a fixed cellular automaton and toward an artificial ecology where stability emerges from energy flow, imperfect predation, refuges, reproduction costs, and nutrient cycling.
+This version is designed to remain alive longer rather than immediately collapse. Extinction can still happen under high climate stress or heavy predator injection, but the world now has recovery mechanisms.
