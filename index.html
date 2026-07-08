@@ -2,91 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Emergence Lab v1.0</title>
-  <link rel="stylesheet" href="src/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emergence Lab v1.1</title>
+  <style>
+    :root{--bg:#050708;--panel:rgba(9,13,16,.86);--panel2:rgba(18,24,28,.78);--line:rgba(166,255,198,.16);--text:#e8f4ed;--muted:#92a39a;--green:#4dff9b;--blue:#58a6ff;--yellow:#ffd166;--red:#ff5c7a;--orange:#ff9f43;--purple:#b48cff}
+    *{box-sizing:border-box} html,body{height:100%;margin:0;background:radial-gradient(circle at top,#102119 0,#050708 42%,#020303 100%);color:var(--text);font:14px/1.4 Inter,ui-sans-serif,system-ui,Segoe UI,Arial,sans-serif;overflow:hidden}
+    canvas{position:fixed;inset:0;width:100vw;height:100vh;image-rendering:pixelated;background:#030505;cursor:crosshair}
+    .topbar{position:fixed;left:14px;right:14px;top:12px;display:flex;gap:10px;align-items:center;justify-content:space-between;pointer-events:none}
+    .brand,.hud,.panel,.notes{pointer-events:auto;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(14px);box-shadow:0 12px 50px rgba(0,0,0,.35);border-radius:18px}
+    .brand{padding:10px 14px}.brand b{letter-spacing:.12em;font-size:12px}.brand span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+    .hud{display:flex;gap:14px;padding:10px 13px}.metric{min-width:64px}.metric small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.1em}.metric b{font-size:15px;font-variant-numeric:tabular-nums}
+    .panel{position:fixed;left:14px;top:86px;width:300px;max-height:calc(100vh - 106px);padding:12px;overflow:auto;transition:transform .2s,opacity .2s}.panel.hidden{transform:translateX(-330px);opacity:.08}
+    h2{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#b6ffc9;margin:6px 0 10px}label{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin:12px 0 5px}
+    select,input[type=range],button{width:100%;border:1px solid var(--line);background:rgba(255,255,255,.045);color:var(--text);border-radius:12px;padding:10px;font:inherit}select option{background:#111;color:white}button{cursor:pointer}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+    .legend{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.chip{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px}.sw{width:13px;height:13px;border-radius:4px}.water{background:#237bff}.soil{background:#69472a}.plant{background:#48d66d}.herb{background:#ffd166}.pred{background:#ff4f6f}.fungi{background:#b48cff}
+    .notes{position:fixed;right:14px;bottom:14px;width:min(470px,calc(100vw - 28px));max-height:180px;padding:12px;overflow:auto}.notes.compact{max-height:82px}.note{border-top:1px solid var(--line);padding:7px 0;color:#d7e7df;font-size:12px}.note:first-child{border-top:0}.note span{color:var(--green);font-variant-numeric:tabular-nums}
+    .chart{position:fixed;left:330px;right:14px;bottom:14px;height:84px;border:1px solid var(--line);background:rgba(4,7,8,.68);border-radius:18px;backdrop-filter:blur(10px);padding:8px}.chart.hidden{display:none}.chart canvas{position:static;width:100%;height:100%;background:transparent;image-rendering:auto}
+    .focus .panel,.focus .notes,.focus .chart,.focus .brand{display:none}.focus .hud{opacity:.45}.mini{color:var(--muted);font-size:12px;margin-top:8px}.kbd{border:1px solid var(--line);border-radius:6px;padding:1px 5px;background:rgba(255,255,255,.05);color:#dff}
+    @media(max-width:800px){.panel{width:260px}.chart{left:14px;right:14px;height:64px}.hud{gap:8px}.metric{min-width:auto}.notes{display:none}}
+  </style>
 </head>
 <body>
-  <div id="app">
-    <aside id="panel" class="panel">
-      <div class="brand">
-        <div class="mark"></div>
-        <div><h1>Emergence Lab</h1><p>v1.0 Artificial World Observatory</p></div>
-      </div>
-      <section>
-        <label>World preset</label>
-        <select id="preset">
-          <option value="temperate">Temperate Basin</option>
-          <option value="desert">Drylands</option>
-          <option value="islands">Island Chain</option>
-          <option value="ice">Cold Frontier</option>
-          <option value="chaos">Mutation Garden</option>
-        </select>
-      </section>
-      <section class="grid2">
-        <button id="newWorld">New World</button>
-        <button id="pause">Pause</button>
-        <button id="step">Step</button>
-        <button id="focus">Focus</button>
-      </section>
-      <section>
-        <label>Brush</label>
-        <select id="brush">
-          <option value="plant">Plant</option>
-          <option value="water">Water</option>
-          <option value="stone">Stone</option>
-          <option value="herbivore">Herbivore</option>
-          <option value="predator">Predator</option>
-          <option value="erase">Erase</option>
-        </select>
-        <label>Brush size <span id="brushSizeLabel">5</span></label>
-        <input id="brushSize" type="range" min="1" max="24" value="5" />
-      </section>
-      <section>
-        <label>Simulation speed <span id="speedLabel">1x</span></label>
-        <input id="speed" type="range" min="0" max="6" value="2" />
-        <label>Mutation <span id="mutationLabel">1.0%</span></label>
-        <input id="mutation" type="range" min="0" max="80" value="10" />
-      </section>
-      <section class="grid2">
-        <button id="rain">Rain</button>
-        <button id="drought">Drought</button>
-        <button id="meteor">Meteor</button>
-        <button id="mutate">Mutation</button>
-      </section>
-      <section class="grid2">
-        <button id="save">Save</button>
-        <button id="load">Load</button>
-        <button id="shot">PNG</button>
-        <button id="export">Export</button>
-      </section>
-      <section class="legend">
-        <div><i class="ocean"></i>Water</div><div><i class="land"></i>Land</div>
-        <div><i class="plant"></i>Plants</div><div><i class="herb"></i>Herbivores</div>
-        <div><i class="pred"></i>Predators</div><div><i class="stone"></i>Stone</div>
-      </section>
-      <section class="help">
-        <strong>Keys</strong> Space pause · F focus · P panel · S save · L load · R rain · M meteor · 1–6 brush · wheel zoom · drag pan
-      </section>
-    </aside>
-
-    <main class="stage">
-      <canvas id="world"></canvas>
-      <canvas id="mini"></canvas>
-      <div id="hud" class="hud">
-        <div><span>Day</span><b id="day">0</b></div>
-        <div><span>Plants</span><b id="plants">0</b></div>
-        <div><span>Herbivores</span><b id="herbs">0</b></div>
-        <div><span>Predators</span><b id="preds">0</b></div>
-        <div><span>Temp</span><b id="temp">0°</b></div>
-        <div><span>Rain</span><b id="rainVal">0%</b></div>
-        <div><span>Diversity</span><b id="diversity">0</b></div>
-      </div>
-      <div id="observer" class="observer"><h2>AI Naturalist</h2><div id="notes"></div></div>
-      <div id="timeline" class="timeline"><canvas id="chart"></canvas></div>
-      <div id="toast" class="toast"></div>
-    </main>
+  <canvas id="world"></canvas>
+  <div class="topbar">
+    <div class="brand"><b>EMERGENCE LAB</b><span>v1.1 Energy Ecology</span></div>
+    <div class="hud" id="hud"></div>
   </div>
-  <script type="module" src="src/main.js"></script>
+  <aside class="panel" id="panel">
+    <h2>World Control</h2>
+    <div class="row"><button id="pauseBtn">Pause</button><button id="stepBtn">Step</button></div>
+    <label>Preset</label><select id="preset"><option value="balanced">Balanced Basin</option><option value="forest">Deep Forest</option><option value="savanna">Savanna</option><option value="islands">Wet Islands</option><option value="harsh">Harsh Desert</option></select>
+    <div class="row"><button id="seedBtn">New World</button><button id="resetBtn">Reset</button></div>
+    <label>Brush</label><select id="brush"><option value="plant">Plant</option><option value="water">Water</option><option value="herb">Herbivore</option><option value="pred">Predator</option><option value="stone">Stone</option><option value="nutrient">Nutrients</option><option value="erase">Erase</option></select>
+    <label>Brush Size <span id="brushVal"></span></label><input id="brushSize" type="range" min="1" max="22" value="6">
+    <label>Simulation Speed <span id="speedVal"></span></label><input id="speed" type="range" min="1" max="30" value="9">
+    <label>Climate Pressure <span id="climateVal"></span></label><input id="climate" type="range" min="0" max="100" value="38">
+    <label>Mutation Rate <span id="mutVal"></span></label><input id="mutation" type="range" min="0" max="100" value="18">
+    <div class="row3" style="margin-top:12px"><button id="rainBtn">Rain</button><button id="droughtBtn">Drought</button><button id="fireBtn">Fire</button></div>
+    <div class="row" style="margin-top:8px"><button id="saveBtn">Save</button><button id="loadBtn">Load</button></div>
+    <div class="row" style="margin-top:8px"><button id="pngBtn">PNG</button><button id="jsonBtn">JSON</button></div>
+    <h2 style="margin-top:16px">Legend</h2><div class="legend"><div class="chip"><i class="sw water"></i>Water</div><div class="chip"><i class="sw soil"></i>Soil</div><div class="chip"><i class="sw plant"></i>Plants</div><div class="chip"><i class="sw herb"></i>Herbivores</div><div class="chip"><i class="sw pred"></i>Predators</div><div class="chip"><i class="sw fungi"></i>Decomposers</div></div>
+    <div class="mini"><span class="kbd">Space</span> pause · <span class="kbd">P</span> panel · <span class="kbd">H</span> notes · <span class="kbd">F</span> focus · drag to paint · wheel to zoom</div>
+  </aside>
+  <div class="chart" id="chartBox"><canvas id="chart"></canvas></div>
+  <section class="notes compact" id="notes"></section>
+  <script>
+  const W=240,H=150,N=W*H; const cvs=document.getElementById('world'),ctx=cvs.getContext('2d'); const buf=document.createElement('canvas'),bctx=buf.getContext('2d'); buf.width=W;buf.height=H; const img=bctx.createImageData(W,H);
+  const chart=document.getElementById('chart'),cctx=chart.getContext('2d'); let scale=4, ox=0, oy=0, paused=false, day=0, tick=0, preset='balanced';
+  const T={air:0,soil:1,water:2,stone:3,plant:4,dead:5}; let cell=new Uint8Array(N), water=new Uint8Array(N), nutrient=new Uint8Array(N), plantE=new Uint8Array(N), humid=new Uint8Array(N), temp=new Uint8Array(N);
+  let animals=[], notes=[], history=[]; const rnd=(a=1)=>Math.random()*a; const ri=(a)=>Math.floor(Math.random()*a); const idx=(x,y)=>x+y*W; const inside=(x,y)=>x>=0&&y>=0&&x<W&&y<H;
+  function hash(x,y,s=1){let n=x*374761393+y*668265263+s*1442695041;n=(n^(n>>13))*1274126177;return ((n^(n>>16))>>>0)/4294967295}
+  function noise(x,y,s){return (hash(Math.floor(x/11),Math.floor(y/11),s)+hash(Math.floor(x/31),Math.floor(y/31),s+7)+hash(Math.floor(x/67),Math.floor(y/67),s+19))/3}
+  function makeAnimal(type,x,y,energy){return {type,x,y,energy,age:0,cool:ri(type==='herb'?70:260),sat:0,dna:{speed:type==='herb'?0.7+rnd(.6):0.55+rnd(.4),vision:type==='herb'?5+ri(5):7+ri(6),fear:type==='herb'?0.4+rnd(.5):0.05+rnd(.25),aggr:type==='pred'?0.45+rnd(.45):0.05+rnd(.25),eff:0.75+rnd(.5),fert:0.8+rnd(.6)}}}
+  function mutate(a){let b=JSON.parse(JSON.stringify(a)); for(const k in b.dna){ if(Math.random()<mutationRate()/100){ b.dna[k]*=0.86+rnd(.28); } } b.energy*=.48+rnd(.12); b.age=0; b.cool=ri(b.type==='herb'?90:420); return b;}
+  function mutationRate(){return +document.getElementById('mutation').value*.12}
+  function generate(p='balanced'){preset=p; cell.fill(0);water.fill(0);nutrient.fill(0);plantE.fill(0);humid.fill(0);temp.fill(0);animals=[];notes=[];history=[];day=0;tick=0; const seed=ri(999999); let sea=p==='islands'?0.58:p==='harsh'?0.27:p==='forest'?0.38:.44;
+    for(let y=0;y<H;y++)for(let x=0;x<W;x++){let i=idx(x,y), n=noise(x,y,seed), n2=noise(x+800,y-400,seed+3), lat=Math.abs(y/H-.5)*2; temp[i]=Math.max(0,Math.min(255,210-lat*95+n2*40)); humid[i]=Math.max(0,Math.min(255,120+n*100-lat*45)); nutrient[i]=70+ri(70); if(n<sea){cell[i]=T.water;water[i]=160+ri(80);humid[i]=240}else if(n>.86&&p!=='islands'){cell[i]=T.stone;nutrient[i]=20}else{cell[i]=T.soil; if((p==='forest'?n2>.42:n2>.56)&&humid[i]>95&&temp[i]>75){cell[i]=T.plant;plantE[i]=55+ri(100);nutrient[i]=Math.max(5,nutrient[i]-25)}} }
+    const herb=p==='savanna'?170:p==='forest'?120:p==='harsh'?45:110, pred=p==='savanna'?18:p==='forest'?10:p==='harsh'?4:9; spawn('herb',herb); spawn('pred',pred); log('World initialized. Energy economy active: sunlight feeds plants, plants feed herbivores, predators recycle surplus into nutrients.'); log('Predators now hunt imperfectly, reproduce slowly, and avoid over-harvesting through hunger/satiety limits.'); }
+  function spawn(type,count){let guard=0;while(count>0&&guard++<20000){let x=ri(W),y=ri(H),i=idx(x,y); if(cell[i]===T.soil||cell[i]===T.plant){animals.push(makeAnimal(type,x,y,type==='herb'?70+rnd(70):120+rnd(80)));count--}}}
+  function log(t){notes.unshift({day:Math.floor(day),t}); notes=notes.slice(0,9); renderNotes();}
+  function renderNotes(){document.getElementById('notes').innerHTML=notes.map(n=>`<div class="note"><span>Day ${n.day}</span> — ${n.t}</div>`).join('')}
+  function neighbours(x,y,fn){for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(dx||dy){let nx=x+dx,ny=y+dy;if(inside(nx,ny))fn(nx,ny,idx(nx,ny));}}}
+  function step(){tick++;day+=.05; const climate=+document.getElementById('climate').value/100; if(tick%8===0) plants(climate); if(tick%2===0) waterStep(climate); animalsStep(); if(tick%40===0) sample(); if(tick%300===0) observe();}
+  function waterStep(climate){for(let y=H-2;y>=1;y--)for(let x=1;x<W-1;x++){let i=idx(x,y); if(cell[i]!==T.water||water[i]<2)continue; let below=idx(x,y+1); if(cell[below]===T.air||cell[below]===T.soil){cell[below]=T.water;water[below]=Math.min(255,water[below]+Math.floor(water[i]*.45));water[i]=Math.floor(water[i]*.55);humid[below]=230} else {let d=Math.random()<.5?-1:1, ni=idx(x+d,y); if(cell[ni]===T.air||cell[ni]===T.soil){cell[ni]=T.water;water[ni]=Math.min(255,water[ni]+Math.floor(water[i]*.25));water[i]=Math.floor(water[i]*.75)}} if(Math.random()<.0008*climate){water[i]=Math.max(0,water[i]-1);humid[i]=Math.min(255,humid[i]+2); if(water[i]<8){cell[i]=T.soil;water[i]=0}}}}
+  function plants(climate){for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){let i=idx(x,y); humid[i]=Math.max(0,Math.min(255,humid[i]+(cell[i]===T.water?8:-.15))); if(cell[i]===T.dead){nutrient[i]=Math.min(255,nutrient[i]+2); if(Math.random()<.018){cell[i]=T.soil}} if(cell[i]===T.plant){let stress=(humid[i]<55?2:0)+(temp[i]<55?2:0)+(nutrient[i]<18?2:0); plantE[i]=Math.max(0,plantE[i]+(stress?-stress:1)); nutrient[i]=Math.max(0,nutrient[i]-1); if(plantE[i]<3||Math.random()<.0002*climate){cell[i]=T.dead;nutrient[i]+=20;plantE[i]=0;continue} if(plantE[i]>72&&Math.random()<.025){let dx=ri(5)-2,dy=ri(5)-2,nx=x+dx,ny=y+dy;if(inside(nx,ny)){let j=idx(nx,ny); if(cell[j]===T.soil&&humid[j]>42&&nutrient[j]>14){cell[j]=T.plant;plantE[j]=25+ri(35);nutrient[j]-=10;}}}}
+      else if(cell[i]===T.soil&&nutrient[i]>28&&humid[i]>70&&temp[i]>60&&Math.random()<.0025){cell[i]=T.plant;plantE[i]=20+ri(30);nutrient[i]-=12}}
+  }
+  function animalsStep(){let occupied=new Map(); for(const a of animals) occupied.set(idx(a.x,a.y),a); let babies=[]; for(const a of animals){a.age++; a.cool--; a.energy-= a.type==='herb'?(0.18/a.dna.eff):(0.32/a.dna.eff); if(a.sat>0)a.sat--; let target=null,best=9999; const vis=Math.round(a.dna.vision); for(let yy=a.y-vis;yy<=a.y+vis;yy++)for(let xx=a.x-vis;xx<=a.x+vis;xx++){if(!inside(xx,yy))continue; let d=Math.abs(xx-a.x)+Math.abs(yy-a.y),i=idx(xx,yy); if(a.type==='herb'){ if(cell[i]===T.plant&&d<best){best=d;target={x:xx,y:yy,kind:'food'}} let pr=occupied.get(i); if(pr&&pr.type==='pred'&&d<vis*.7&&Math.random()<a.dna.fear){target={x:a.x-(xx-a.x),y:a.y-(yy-a.y),kind:'flee'};best=-1}} else {let h=occupied.get(i); if(h&&h.type==='herb'&&d<best&&a.sat<80){best=d;target={x:xx,y:yy,kind:'prey',prey:h}} }}
+      if(a.type==='herb'&&cell[idx(a.x,a.y)]===T.plant){let i=idx(a.x,a.y); let bite=Math.min(28,plantE[i]); plantE[i]-=bite; a.energy+=bite*.85; if(plantE[i]<5){cell[i]=T.soil;nutrient[i]+=8}}
+      if(a.type==='pred'&&target&&target.kind==='prey'&&Math.abs(target.x-a.x)+Math.abs(target.y-a.y)<=1){let refuge=cell[idx(target.prey.x,target.prey.y)]===T.plant?0.28:0; let chance=Math.max(.12,Math.min(.78,.42+a.dna.aggr*.22-target.prey.dna.speed*.12-refuge)); if(Math.random()<chance){target.prey.dead=true; a.energy+=78; a.sat=110; nutrient[idx(target.prey.x,target.prey.y)]+=20} else {a.energy-=8; a.sat=18}}
+      let nx=a.x,ny=a.y; if(target){let dx=Math.sign(target.x-a.x),dy=Math.sign(target.y-a.y); nx=a.x+dx;ny=a.y+dy}else{nx=a.x+ri(3)-1;ny=a.y+ri(3)-1} if(inside(nx,ny)&&cell[idx(nx,ny)]!==T.water&&cell[idx(nx,ny)]!==T.stone){a.x=nx;a.y=ny}
+      let repro=a.type==='herb'?145/a.dna.fert:620/a.dna.fert; if(a.energy>(a.type==='herb'?125:190)&&a.cool<0&&a.age>repro*.4){let child=mutate(a); child.x=Math.max(0,Math.min(W-1,a.x+ri(5)-2));child.y=Math.max(0,Math.min(H-1,a.y+ri(5)-2)); if(cell[idx(child.x,child.y)]!==T.water&&cell[idx(child.x,child.y)]!==T.stone){babies.push(child); a.energy*=.58; a.cool=repro+rnd(repro)}} if(a.energy<=0||a.age>(a.type==='herb'?2600:3800)){a.dead=true; let i=idx(a.x,a.y);cell[i]=T.dead;nutrient[i]=Math.min(255,nutrient[i]+35)}} animals=animals.filter(a=>!a.dead).concat(babies).slice(0,2800);}
+  function sample(){let p=0,h=0,r=0,w=0,nu=0; for(let i=0;i<N;i++){if(cell[i]===T.plant)p++; if(cell[i]===T.water)w++; nu+=nutrient[i]} for(const a of animals){if(a.type==='herb')h++;else r++} history.push({day:Math.floor(day),p,h,r,w,nu:Math.round(nu/N)}); if(history.length>240)history.shift();}
+  function observe(){let last=history[history.length-1]; if(!last)return; if(last.h===0&&last.r>0)log('Herbivore collapse detected. Predators are now entering starvation pressure; vegetation refuges may allow recovery if any survive.'); else if(last.r===0&&last.h>80)log('Predators extinct. Herbivores may overgraze unless plant growth and water availability can absorb the pressure.'); else if(last.p>3600&&last.h<45)log('Plant biomass is high and grazing pressure is low. Expect herbivore growth if water remains stable.'); else if(last.r>0&&last.h>0&&last.r/last.h>.18)log('Predator pressure is high. Hunting failure, satiety and slow reproduction are preventing instant prey elimination.'); else if(Math.random()<.5)log('Ecosystem stable enough for observation: energy is cycling through plants, grazers, predators and nutrients.');}
+  function event(type){if(type==='rain'){for(let i=0;i<N;i++){humid[i]=Math.min(255,humid[i]+45); if(cell[i]===T.soil&&Math.random()<.012){cell[i]=T.water;water[i]=80}} log('Rain front crossed the basin. Water tables and plant germination increased.')} if(type==='drought'){for(let i=0;i<N;i++){humid[i]=Math.max(0,humid[i]-55); if(cell[i]===T.water&&Math.random()<.28){cell[i]=T.soil;water[i]=0}} log('Drought event reduced water availability. Herbivore pressure may fall after plant stress.')} if(type==='fire'){let cx=ri(W),cy=ri(H),rr=18+ri(22); for(let y=cy-rr;y<=cy+rr;y++)for(let x=cx-rr;x<=cx+rr;x++)if(inside(x,y)&&Math.hypot(x-cx,y-cy)<rr){let i=idx(x,y); if(cell[i]===T.plant&&Math.random()<.7){cell[i]=T.dead;plantE[i]=0;nutrient[i]=Math.min(255,nutrient[i]+55)}} log('Fire scar created. Short-term biomass loss, long-term nutrient pulse.')}} 
+  function draw(){cvs.width=innerWidth; cvs.height=innerHeight; for(let i=0;i<N;i++){let r=4,g=7,b=7,a=255; if(cell[i]===T.soil){let n=nutrient[i];r=38+n*.26;g=28+n*.14;b=18+n*.08}else if(cell[i]===T.water){r=18;g=72+water[i]*.25;b=135+water[i]*.45}else if(cell[i]===T.stone){r=75;g=74;b=70}else if(cell[i]===T.plant){r=25;g=95+plantE[i]*.72;b=45}else if(cell[i]===T.dead){r=84;g=50;b=92} img.data[i*4]=r;img.data[i*4+1]=g;img.data[i*4+2]=b;img.data[i*4+3]=a} bctx.putImageData(img,0,0); ctx.imageSmoothingEnabled=false; ctx.clearRect(0,0,cvs.width,cvs.height); let s=Math.max(2,Math.min(10,scale)); ctx.drawImage(buf,ox,oy,W*s,H*s); for(const a of animals){ctx.fillStyle=a.type==='herb'?'#ffd166':'#ff4f6f'; ctx.globalAlpha=Math.max(.55,Math.min(1,a.energy/160)); ctx.fillRect(ox+a.x*s,oy+a.y*s,Math.max(2,s),Math.max(2,s));} ctx.globalAlpha=1; drawHud(); drawChart();}
+  function drawHud(){let p=history.at(-1)||{p:0,h:0,r:0,nu:0}; document.getElementById('hud').innerHTML=`<div class="metric"><small>Day</small><b>${Math.floor(day)}</b></div><div class="metric"><small>Plants</small><b>${p.p}</b></div><div class="metric"><small>Herb</small><b>${p.h}</b></div><div class="metric"><small>Pred</small><b>${p.r}</b></div><div class="metric"><small>Nutrients</small><b>${p.nu}</b></div>`;}
+  function drawChart(){chart.width=chart.clientWidth; chart.height=chart.clientHeight; cctx.clearRect(0,0,chart.width,chart.height); if(history.length<2)return; const series=[['p','#4dff9b',5200],['h','#ffd166',450],['r','#ff5c7a',100]]; for(const [k,col,max] of series){cctx.beginPath();cctx.strokeStyle=col;cctx.lineWidth=2; history.forEach((d,i)=>{let x=i/(history.length-1)*chart.width,y=chart.height-(Math.min(max,d[k])/max)*chart.height; if(i)cctx.lineTo(x,y);else cctx.moveTo(x,y)});cctx.stroke();}}
+  let mouse=false; function paint(e){let s=Math.max(2,Math.min(10,scale)), x=Math.floor((e.clientX-ox)/s), y=Math.floor((e.clientY-oy)/s), bs=+document.getElementById('brushSize').value, br=document.getElementById('brush').value; for(let yy=y-bs;yy<=y+bs;yy++)for(let xx=x-bs;xx<=x+bs;xx++)if(inside(xx,yy)&&Math.hypot(xx-x,yy-y)<=bs){let i=idx(xx,yy); if(br==='plant'){cell[i]=T.plant;plantE[i]=100;nutrient[i]=Math.max(20,nutrient[i])} if(br==='water'){cell[i]=T.water;water[i]=200;humid[i]=230} if(br==='stone'){cell[i]=T.stone} if(br==='nutrient'){nutrient[i]=255;if(cell[i]===T.air)cell[i]=T.soil} if(br==='erase'){cell[i]=T.soil;water[i]=0;plantE[i]=0} if(br==='herb'&&Math.random()<.04)animals.push(makeAnimal('herb',xx,yy,100)); if(br==='pred'&&Math.random()<.025)animals.push(makeAnimal('pred',xx,yy,150));}}
+  cvs.onmousedown=e=>{mouse=true;paint(e)}; cvs.onmousemove=e=>{if(mouse)paint(e)}; onmouseup=()=>mouse=false; cvs.onwheel=e=>{e.preventDefault(); scale+=e.deltaY<0?.35:-.35; scale=Math.max(2,Math.min(10,scale));};
+  document.getElementById('pauseBtn').onclick=()=>paused=!paused; document.getElementById('stepBtn').onclick=()=>step(); document.getElementById('seedBtn').onclick=()=>generate(document.getElementById('preset').value); document.getElementById('resetBtn').onclick=()=>generate(preset); document.getElementById('preset').onchange=e=>generate(e.target.value); document.getElementById('rainBtn').onclick=()=>event('rain'); document.getElementById('droughtBtn').onclick=()=>event('drought'); document.getElementById('fireBtn').onclick=()=>event('fire'); document.getElementById('saveBtn').onclick=()=>localStorage.elab=JSON.stringify({cell:[...cell],water:[...water],nutrient:[...nutrient],plantE:[...plantE],humid:[...humid],temp:[...temp],animals,day,preset}); document.getElementById('loadBtn').onclick=()=>{let s=JSON.parse(localStorage.elab||'null'); if(s){cell.set(s.cell);water.set(s.water);nutrient.set(s.nutrient);plantE.set(s.plantE);humid.set(s.humid);temp.set(s.temp);animals=s.animals;day=s.day;preset=s.preset;log('Saved world restored.')}}; document.getElementById('pngBtn').onclick=()=>{let a=document.createElement('a');a.download='emergence-lab.png';a.href=cvs.toDataURL();a.click()}; document.getElementById('jsonBtn').onclick=()=>{let blob=new Blob([JSON.stringify({history,animals:animals.length,day},null,2)],{type:'application/json'}),a=document.createElement('a');a.download='emergence-lab-data.json';a.href=URL.createObjectURL(blob);a.click()};
+  onkeydown=e=>{if(e.code==='Space')paused=!paused; if(e.key==='p'||e.key==='P')document.getElementById('panel').classList.toggle('hidden'); if(e.key==='h'||e.key==='H')document.getElementById('notes').classList.toggle('compact'); if(e.key==='f'||e.key==='F')document.body.classList.toggle('focus');};
+  function uiVals(){document.getElementById('brushVal').textContent=document.getElementById('brushSize').value;document.getElementById('speedVal').textContent=document.getElementById('speed').value;document.getElementById('climateVal').textContent=document.getElementById('climate').value;document.getElementById('mutVal').textContent=document.getElementById('mutation').value} document.querySelectorAll('input').forEach(i=>i.oninput=uiVals); uiVals();
+  function loop(){let sp=+document.getElementById('speed').value; if(!paused)for(let i=0;i<sp;i++)step(); draw(); requestAnimationFrame(loop)} generate('balanced'); loop();
+  </script>
 </body>
 </html>
