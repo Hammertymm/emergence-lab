@@ -1,0 +1,9 @@
+{
+  "name": "emergence-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser-based artificial life sandbox.",
+  "scripts": {
+    "start": "python -m http.server 8000"
+  }
+}

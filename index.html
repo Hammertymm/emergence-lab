@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emergence Lab</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Artificial Life Sandbox</p>
+        <h1>Emergence Lab</h1>
+        <p class="sub">A browser-based cellular universe where simple rules create complex behaviour.</p>
+      </div>
+      <div class="stats">
+        <div><span id="generation">0</span><small>generation</small></div>
+        <div><span id="population">0</span><small>alive</small></div>
+        <div><span id="ruleLabel">Life</span><small>rule</small></div>
+      </div>
+    </section>
+
+    <section class="app">
+      <aside class="panel">
+        <h2>Controls</h2>
+        <button id="playPause">Pause</button>
+        <button id="step">Step</button>
+        <button id="randomize">Randomise</button>
+        <button id="clear">Clear</button>
+
+        <label>Rule
+          <select id="ruleSelect"></select>
+        </label>
+
+        <label>Pattern
+          <select id="patternSelect"></select>
+        </label>
+        <button id="stampMode">Stamp: Off</button>
+
+        <label>Speed <span id="speedText">10</span>
+          <input id="speed" type="range" min="1" max="60" value="10" />
+        </label>
+
+        <label>Cell size <span id="cellSizeText">8</span>
+          <input id="cellSize" type="range" min="4" max="16" value="8" />
+        </label>
+
+        <button id="save">Save World</button>
+        <button id="load">Load World</button>
+        <button id="exportRle">Export RLE</button>
+        <textarea id="exportBox" placeholder="Exports appear here"></textarea>
+      </aside>
+
+      <section class="worldWrap">
+        <canvas id="world"></canvas>
+        <p class="hint">Click or drag to draw. Toggle stamp mode to place patterns.</p>
+      </section>
+    </section>
+  </main>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
