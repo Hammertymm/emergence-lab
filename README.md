@@ -1,6 +1,6 @@
-# Emergence Lab v1.5 — Deep Biosphere
+# Emergence Lab v1.6 — Lineage Optics
 
-A static browser-based artificial ecology observatory. No backend required.
+A browser-based artificial ecology focused on readable emergence: smaller sharper cells, colour-graduated animal breeds, fungi, scavengers, carrion, soil fertility, seasons, disease, wildfire and living field notes.
 
 ## Run
 
@@ -8,28 +8,33 @@ A static browser-based artificial ecology observatory. No backend required.
 npx serve .
 ```
 
-Open the local URL printed by `serve`.
+Open the local URL shown by `serve`.
 
-## v1.5 Highlights
+## What changed in v1.6
 
-- Deep Biosphere rebuild with calmer, more legible graphics.
-- Inspector mode for clicking cells and reading ecological values.
-- Fungi, carrion, scavengers, soil fertility, moisture, fire succession and disease.
-- Genetic lineage names for grazers, predators and scavengers.
-- Living Registry panel showing dominant lineages and stability.
-- Multiple view layers: living diorama, biome map, soil, moisture, decomposition, predator pressure and genetic diversity.
-- Slower default pacing for observation rather than chaos.
-- Save/load, PNG export and JSON export.
+- Sharper main-world rendering with a larger simulation grid.
+- Smaller visible pixels for finer ecological detail.
+- Herbivores now have colour-graduated breeds.
+- Predators now have colour-graduated breeds.
+- Scavengers now have colour-graduated breeds.
+- Breed names appear in the Living Registry.
+- Added a Breed Map layer.
+- Increased population capacity to suit the finer world grid.
+- Reduced predator pressure slightly so lineages have time to emerge.
 
-## Controls
+## Core loop
 
-- Space: pause/resume
+Sun and climate feed plants. Herbivores graze plants. Predators hunt herbivores. Scavengers and fungi recycle carrion into soil nutrients. Soil fertility feeds the next plant wave.
+
+## Shortcuts
+
+- Space: pause
 - S: step
 - P: hide/show panel
 - H: compact HUD
 - F: focus mode
 - N: new world
 
-## Design Direction
+## Design direction
 
-The project is moving away from noisy cellular automata and toward an observable artificial ecology: slower changes, visible succession, trophic feedback, decomposers, lineage drift and field-note interpretation.
+The project is moving away from noisy arcade pixels and toward an observable living diorama: smaller cells, sharper rendering, visible breed divergence, and slow ecological feedback loops.
