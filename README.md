@@ -1,21 +1,20 @@
-# Emergence Lab v1.2 — Recovery Ecology
+# Emergence Lab v1.3 — Slow Ecology
 
-A browser-based artificial world simulator focused on stable ecosystem emergence.
+A browser-based artificial ecosystem observatory.
 
-## What changed from v1.1
+## What changed in v1.3
 
-v1.1 overcorrected the predator/prey system. Predators could still exhaust herbivores, then collapse the world. v1.2 adds stronger recovery and balance systems:
+This release deliberately slows the simulation down and improves readability.
 
-- More land-biased world generation.
-- Better organism seeding.
-- Predator population caps tied to herbivore population.
-- Slower predator reproduction.
-- Predator rest/cooldown after hunting.
-- Hunting failure affected by vegetation cover.
-- Herbivore emergency reseeding if the world collapses.
-- Predator reseeding only when herbivore population can support it.
-- Clearer terrain colours.
-- Smaller screen-first interface.
+- Softer, less noisy visuals
+- Slower default simulation pace
+- Larger, clearer organism hierarchy
+- Fungi/decomposer layer
+- Carrion and nutrient recycling
+- More stable grazing and predator pressure
+- Recovery protocols for ecosystem collapse
+- Better field notes
+- Screen-first UI retained
 
 ## Run locally
 
@@ -23,22 +22,20 @@ v1.1 overcorrected the predator/prey system. Predators could still exhaust herbi
 npx serve .
 ```
 
-Open the printed local URL, usually:
-
-```text
-http://localhost:3000
-```
+Open the local URL shown in the terminal.
 
 ## Controls
 
 - Space: pause/resume
-- S: single step
-- P: hide/show side panel
+- S: step once
+- P: hide/show panel
 - F: focus mode
-- R: rain
-- L: seed life
-- Click/drag: paint selected brush
+- N: new world
 
-## Notes
+## Ecosystem model
 
-This version is designed to remain alive longer rather than immediately collapse. Extinction can still happen under high climate stress or heavy predator injection, but the world now has recovery mechanisms.
+Energy flows through:
+
+Sun → plants → herbivores → predators → carrion → fungi → nutrients → plants
+
+This is still stylised, but v1.3 shifts the project away from fast pixel noise and toward a slower living diorama that is easier to observe.
