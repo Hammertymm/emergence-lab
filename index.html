@@ -10,51 +10,87 @@
   <main class="shell">
     <section class="hero">
       <div>
-        <p class="eyebrow">Artificial Life Sandbox</p>
+        <p class="eyebrow">Artificial World Observatory</p>
         <h1>Emergence Lab</h1>
-        <p class="sub">A browser-based cellular universe where simple rules create complex behaviour.</p>
+        <p class="sub">A modular browser lab for cellular life, falling matter, and future artificial ecosystems.</p>
       </div>
       <div class="stats">
-        <div><span id="generation">0</span><small>generation</small></div>
-        <div><span id="population">0</span><small>alive</small></div>
-        <div><span id="ruleLabel">Life</span><small>rule</small></div>
+        <div><span id="generation">0</span><small>tick</small></div>
+        <div><span id="population">0</span><small>active</small></div>
+        <div><span id="modeLabel">Cellular Life</span><small>experiment</small></div>
       </div>
     </section>
 
     <section class="app">
       <aside class="panel">
-        <h2>Controls</h2>
+        <h2>Laboratory</h2>
+        <label>Experiment
+          <select id="experimentSelect">
+            <option value="life">Cellular Life</option>
+            <option value="matter">Falling Matter</option>
+            <option value="slime">Slime Trails</option>
+          </select>
+        </label>
+
         <button id="playPause">Pause</button>
         <button id="step">Step</button>
-        <button id="randomize">Randomise</button>
+        <button id="randomize">Seed World</button>
         <button id="clear">Clear</button>
 
-        <label>Rule
-          <select id="ruleSelect"></select>
+        <div id="lifeControls" class="controlGroup">
+          <label>Rule
+            <select id="ruleSelect"></select>
+          </label>
+          <label>Pattern
+            <select id="patternSelect"></select>
+          </label>
+          <button id="stampMode">Stamp: Off</button>
+        </div>
+
+        <div id="matterControls" class="controlGroup hidden">
+          <label>Material
+            <select id="materialSelect">
+              <option value="sand">Sand</option>
+              <option value="water">Water</option>
+              <option value="plant">Plant</option>
+              <option value="stone">Stone</option>
+              <option value="eraser">Eraser</option>
+            </select>
+          </label>
+          <label>Brush <span id="brushText">4</span>
+            <input id="brush" type="range" min="1" max="12" value="4" />
+          </label>
+        </div>
+
+        <div id="slimeControls" class="controlGroup hidden">
+          <label>Agents <span id="agentsText">800</span>
+            <input id="agents" type="range" min="100" max="3000" step="100" value="800" />
+          </label>
+          <label>Trail Decay <span id="decayText">0.96</span>
+            <input id="decay" type="range" min="0.88" max="0.995" step="0.005" value="0.96" />
+          </label>
+        </div>
+
+        <label>Speed <span id="speedText">13</span>
+          <input id="speed" type="range" min="1" max="60" value="13" />
         </label>
 
-        <label>Pattern
-          <select id="patternSelect"></select>
-        </label>
-        <button id="stampMode">Stamp: Off</button>
-
-        <label>Speed <span id="speedText">10</span>
-          <input id="speed" type="range" min="1" max="60" value="10" />
-        </label>
-
-        <label>Cell size <span id="cellSizeText">8</span>
-          <input id="cellSize" type="range" min="4" max="16" value="8" />
+        <label>Cell size <span id="cellSizeText">5</span>
+          <input id="cellSize" type="range" min="3" max="16" value="5" />
         </label>
 
         <button id="save">Save World</button>
         <button id="load">Load World</button>
-        <button id="exportRle">Export RLE</button>
-        <textarea id="exportBox" placeholder="Exports appear here"></textarea>
+        <button id="exportRle">Export</button>
+        <textarea id="exportBox" placeholder="Exports and field notes appear here"></textarea>
       </aside>
 
       <section class="worldWrap">
         <canvas id="world"></canvas>
-        <p class="hint">Click or drag to draw. Toggle stamp mode to place patterns.</p>
+        <div class="observatory">
+          <p id="hint">Click or drag to draw. Toggle stamp mode to place patterns.</p>
+          <p id="fieldNote">Field note: simple rules are running. Watch for order forming from noise.</p>
+        </div>
       </section>
     </section>
   </main>

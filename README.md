@@ -1,20 +1,33 @@
-<<<<<<< HEAD
 # Emergence Lab
 
-A browser-based artificial life sandbox inspired by Conway's Game of Life.
+A browser-based artificial world laboratory.
 
-## What it does
+Version `0.2` turns the original Game of Life demo into a modular simulation platform with multiple experiments.
 
-Emergence Lab shows a grid of cells. Each cell is either alive or dead. Every tick, cells survive, die, or are born based on their neighbours. Simple rules create complex moving patterns.
+## Experiments
+
+1. **Cellular Life** — Conway-style cellular automata with selectable rules and pattern stamping.
+2. **Falling Matter** — simple sand/water/plant/stone physics.
+3. **Slime Trails** — agent trails that self-organise into vein-like networks.
 
 ## Run locally
 
-Option 1: open `index.html` directly in your browser.
+From the project folder:
 
-Option 2: use a local server:
+```powershell
+npx serve .
+```
 
-```bash
-python -m http.server 8000
+Open the local URL it prints, usually:
+
+```text
+http://localhost:3000
+```
+
+Alternative if Python works on your machine:
+
+```powershell
+py -m http.server 8000
 ```
 
 Then open:
@@ -25,28 +38,16 @@ http://localhost:8000
 
 ## Controls
 
-- Pause / play the simulation
-- Step forward one generation
-- Randomise the world
-- Clear the world
-- Change rule sets
-- Click and drag to draw cells
-- Turn on stamp mode to place preset patterns
-- Save/load world in browser storage
-- Export the current world as RLE text
+- **Experiment** — switch between simulation types.
+- **Pause / Step** — stop time or advance one tick.
+- **Seed World** — generate a starting condition.
+- **Clear** — wipe the world.
+- **Cellular Life** — choose rules and stamp famous patterns.
+- **Falling Matter** — paint sand, water, plants, stone, or erase.
+- **Slime Trails** — inject agents and tune trail decay.
+- **Save / Load** — stores each experiment in browser local storage.
+- **Export** — exports Life as RLE and other worlds as JSON.
 
-## Suggested GitHub repo name
+## Direction
 
-`emergence-lab`
-
-## Suggested next features
-
-1. Infinite pan/zoom world
-2. Creature mode with food, energy, mutation and reproduction
-3. Shareable world seeds
-4. AI-generated field notes
-5. Hosted demo on GitHub Pages or Vercel
-=======
-# emergence-lab
-GPTs own project
->>>>>>> 8b562f0ea812bf9be9a9284104660120c0ad6476
+Emergence Lab is evolving toward a browser-native artificial life observatory: terrain, ecosystems, genetics, mutation, species history, and AI-generated naturalist reports.
