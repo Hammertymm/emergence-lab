@@ -1,41 +1,34 @@
-# Emergence Lab v1.3 — Slow Ecology
+# Emergence Lab v1.4 — Living Systems
 
-A browser-based artificial ecosystem observatory.
+A browser-based artificial ecology sandbox.
 
-## What changed in v1.3
+## What is new
 
-This release deliberately slows the simulation down and improves readability.
+- Seasonal cycles: spring, summer, autumn, winter.
+- Scavengers added as a separate ecological guild.
+- Carrion, fungi and scavengers now form a clearer decomposition chain.
+- Wildfire succession: fire damages plants but enriches soil.
+- Migration pulses help worlds recover without feeling like instant magic.
+- View layers: living world, soil fertility, water/moisture, decomposition, predator pressure.
+- Better observatory notes and stability tracking.
+- Slower, more readable pacing retained from v1.3.
 
-- Softer, less noisy visuals
-- Slower default simulation pace
-- Larger, clearer organism hierarchy
-- Fungi/decomposer layer
-- Carrion and nutrient recycling
-- More stable grazing and predator pressure
-- Recovery protocols for ecosystem collapse
-- Better field notes
-- Screen-first UI retained
-
-## Run locally
+## Run
 
 ```powershell
 npx serve .
 ```
 
-Open the local URL shown in the terminal.
+Open the local URL shown by the terminal.
 
 ## Controls
 
 - Space: pause/resume
-- S: step once
+- S: single step
 - P: hide/show panel
 - F: focus mode
 - N: new world
 
-## Ecosystem model
+## Design direction
 
-Energy flows through:
-
-Sun → plants → herbivores → predators → carrion → fungi → nutrients → plants
-
-This is still stylised, but v1.3 shifts the project away from fast pixel noise and toward a slower living diorama that is easier to observe.
+v1.4 moves the project away from noisy pixel chaos and toward a readable living diorama. The world now has producers, grazers, predators, scavengers, fungi, carrion, soil fertility, moisture and seasonal pressure.
