@@ -1,17 +1,6 @@
-# Emergence Lab v1.4 — Living Systems
+# Emergence Lab v1.5 — Deep Biosphere
 
-A browser-based artificial ecology sandbox.
-
-## What is new
-
-- Seasonal cycles: spring, summer, autumn, winter.
-- Scavengers added as a separate ecological guild.
-- Carrion, fungi and scavengers now form a clearer decomposition chain.
-- Wildfire succession: fire damages plants but enriches soil.
-- Migration pulses help worlds recover without feeling like instant magic.
-- View layers: living world, soil fertility, water/moisture, decomposition, predator pressure.
-- Better observatory notes and stability tracking.
-- Slower, more readable pacing retained from v1.3.
+A static browser-based artificial ecology observatory. No backend required.
 
 ## Run
 
@@ -19,16 +8,28 @@ A browser-based artificial ecology sandbox.
 npx serve .
 ```
 
-Open the local URL shown by the terminal.
+Open the local URL printed by `serve`.
+
+## v1.5 Highlights
+
+- Deep Biosphere rebuild with calmer, more legible graphics.
+- Inspector mode for clicking cells and reading ecological values.
+- Fungi, carrion, scavengers, soil fertility, moisture, fire succession and disease.
+- Genetic lineage names for grazers, predators and scavengers.
+- Living Registry panel showing dominant lineages and stability.
+- Multiple view layers: living diorama, biome map, soil, moisture, decomposition, predator pressure and genetic diversity.
+- Slower default pacing for observation rather than chaos.
+- Save/load, PNG export and JSON export.
 
 ## Controls
 
 - Space: pause/resume
-- S: single step
+- S: step
 - P: hide/show panel
+- H: compact HUD
 - F: focus mode
 - N: new world
 
-## Design direction
+## Design Direction
 
-v1.4 moves the project away from noisy pixel chaos and toward a readable living diorama. The world now has producers, grazers, predators, scavengers, fungi, carrion, soil fertility, moisture and seasonal pressure.
+The project is moving away from noisy cellular automata and toward an observable artificial ecology: slower changes, visible succession, trophic feedback, decomposers, lineage drift and field-note interpretation.
