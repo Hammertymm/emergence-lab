@@ -1,62 +1,143 @@
-# Emergence Lab
+# Emergence Lab v1.0
 
-A modular browser-based artificial world observatory.
+A browser-based artificial world observatory.
 
-Current experiments:
+Emergence Lab simulates a small living world made from interacting systems:
 
-1. **Cellular Life** — Conway-style cellular automata with rules and pattern stamping.
-2. **Falling Matter** — simple sand, water, stone, and plant physics.
-3. **Slime Trails** — agent swarms leaving self-organising trails.
-4. **Ecosystem** — plants, herbivores, predators, energy, reproduction, death, mutation, and climate events.
+- procedural terrain
+- water flow
+- climate and rain
+- nutrients
+- plant growth
+- herbivores
+- predators
+- reproduction
+- mutation
+- ecosystem collapse and recovery
+- AI-style naturalist field notes
+- population history chart
+- save/load
+- screenshot and JSON export
+
+The goal is not to be a normal game. The goal is to watch complex behaviour emerge from simple local rules.
 
 ## Run locally
+
+From the project folder:
 
 ```powershell
 npx serve .
 ```
 
-Open the URL it prints, usually:
+Open the local URL shown in the terminal, usually:
 
 ```text
 http://localhost:3000
 ```
 
-Alternative if Python is available:
+Alternative with Python:
 
 ```powershell
 py -m http.server 8000
 ```
 
-## v0.4 additions
+Then open:
 
-- Experiment presets
-- PNG screenshot export
-- Keyboard shortcuts
-- Live metrics panel
-- Population/history sparkline
-- Brush cursor overlay
-- Extra ecosystem events
-- Cleaner two-column controls
+```text
+http://localhost:8000
+```
 
-## Controls
+## Install over your current version
 
-- **Space** — play/pause
-- **R** — seed/randomise
-- **C** — clear
-- **S** — save current experiment locally
-- **L** — load saved experiment
-- **E** — export current world data
-- **1-4** — switch experiments
-- **Click/drag** — draw, pour, inject agents, or seed ecosystem biomass
+Unzip this folder over:
 
-## Suggested Git workflow
+```text
+C:\Projects\emergence-lab
+```
+
+Then commit:
 
 ```powershell
 git add .
-git commit -m "Add observatory upgrades"
+git commit -m "Release Emergence Lab v1.0"
 git push
 ```
 
-## Direction
+## Controls
 
-Emergence Lab is intended to grow into a browser-native artificial-life platform: simulations first, then persistent worlds, evolutionary trees, AI naturalist reports, and shareable world seeds.
+| Action | Control |
+|---|---|
+| Pause/resume | Space |
+| Focus mode | F |
+| Hide/show side panel | P |
+| Save | S |
+| Load | L |
+| Rain event | R |
+| Meteor event | M |
+| Select brushes | 1-6 |
+| Zoom | Mouse wheel |
+| Paint | Click/drag |
+| Pan | Shift+drag or middle mouse drag |
+
+Brushes:
+
+1. Plant
+2. Water
+3. Stone
+4. Herbivore
+5. Predator
+6. Eraser
+
+## What is simulated?
+
+### Terrain
+
+Each new world generates a terrain field. Terrain controls where water gathers, where plants survive, and where organisms can move.
+
+### Water
+
+Water flows downhill across the map and evaporates slowly. Rain events add new surface water.
+
+### Nutrients
+
+Nutrients help plants grow. Dead organisms and meteor events return nutrients to the soil.
+
+### Plants
+
+Plants consume water and nutrients. They spread seeds and can collapse if the environment becomes too dry or overgrazed.
+
+### Herbivores
+
+Herbivores seek plants, eat, spend energy, reproduce, mutate, and die.
+
+### Predators
+
+Predators hunt herbivores. If they overhunt, prey collapse and predators starve.
+
+### Mutation
+
+Offspring inherit DNA values with occasional mutation. DNA affects speed, vision, efficiency, fear, and size.
+
+### AI Naturalist
+
+The field notes system watches the simulation and writes short observations about population pressure, drought, collapse risk, and stability.
+
+## Project direction
+
+v1.0 is the first complete snapshot of the project as a platform rather than a one-off demo.
+
+Future directions:
+
+- persistent world gallery
+- proper species classification
+- evolutionary tree
+- Web Worker simulation thread
+- PixiJS/WebGPU renderer
+- longer timeline and rewind
+- real AI-generated observation reports
+- shareable world seeds
+- Vercel deployment
+
+## Design principle
+
+Every new feature should interact with existing systems. Avoid isolated gimmicks. The project becomes interesting when water, plants, animals, climate, nutrients, and mutation all affect each other.
