@@ -1,6 +1,33 @@
-# Emergence Lab v1.6 — Lineage Optics
+# Emergence Lab v1.7 — Performance Biosphere
 
-A browser-based artificial ecology focused on readable emergence: smaller sharper cells, colour-graduated animal breeds, fungi, scavengers, carrion, soil fertility, seasons, disease, wildfire and living field notes.
+A browser-based artificial ecology sandbox focused on observable living systems rather than raw pixel chaos.
+
+## Why v1.7 exists
+
+v1.6 pushed the grid density and lineage rendering too far. On normal laptops it could appear frozen because the browser was spending too much time simulating and drawing thousands of organisms.
+
+v1.7 keeps the lineage/breed idea but rebuilds the defaults around performance and readability.
+
+## Main changes
+
+- Reduced simulation grid to a safer resolution.
+- Slower default pace.
+- Lower population caps.
+- Larger organism markers on a finer-looking grid.
+- Safer predator/herbivore/scavenger caps.
+- Lower event burst sizes.
+- Render frame throttle.
+- Same ecosystem layers: plants, herbivores, predators, scavengers, fungi, carrion, soil, moisture and seasons.
+- Same lineage colours, but with a clearer visual hierarchy.
+
+## Controls
+
+- Space: pause/resume
+- S: step once
+- P: hide/show side panel
+- H: compact HUD
+- F: focus mode
+- N: new world
 
 ## Run
 
@@ -8,33 +35,8 @@ A browser-based artificial ecology focused on readable emergence: smaller sharpe
 npx serve .
 ```
 
-Open the local URL shown by `serve`.
-
-## What changed in v1.6
-
-- Sharper main-world rendering with a larger simulation grid.
-- Smaller visible pixels for finer ecological detail.
-- Herbivores now have colour-graduated breeds.
-- Predators now have colour-graduated breeds.
-- Scavengers now have colour-graduated breeds.
-- Breed names appear in the Living Registry.
-- Added a Breed Map layer.
-- Increased population capacity to suit the finer world grid.
-- Reduced predator pressure slightly so lineages have time to emerge.
-
-## Core loop
-
-Sun and climate feed plants. Herbivores graze plants. Predators hunt herbivores. Scavengers and fungi recycle carrion into soil nutrients. Soil fertility feeds the next plant wave.
-
-## Shortcuts
-
-- Space: pause
-- S: step
-- P: hide/show panel
-- H: compact HUD
-- F: focus mode
-- N: new world
+Then open the local URL printed by the terminal.
 
 ## Design direction
 
-The project is moving away from noisy arcade pixels and toward an observable living diorama: smaller cells, sharper rendering, visible breed divergence, and slow ecological feedback loops.
+The priority is now: stable simulation first, readable graphics second, deeper realism third. Future versions should add realism without sacrificing observability.
